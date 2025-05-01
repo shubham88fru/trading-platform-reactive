@@ -9,5 +9,5 @@ public class Customer {
     @Id
     private int id;
     private String name;
-    private String balance;
+    private int balance;
 }
