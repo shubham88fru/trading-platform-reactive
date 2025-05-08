@@ -30,6 +30,27 @@ public class TradeService {
     }
 
     private Mono<StockTradeResponse> sellStock(int customerId, StockTradeRequest stockTradeRequest) {
+        Mono<Customer> customerMono = customerRepository.findById(customerId)
+                .switchIfEmpty(ApplicationExceptions.customerNotFound(customerId));
+
+        Mono<PortfolioItem> portfolioItemMono = portfolioItemRepository
+                .findByCustomerIdAndTicker(customerId, stockTradeRequest.getTicker())
+                .filter(pi -> pi.getQuantity() >= stockTradeRequest.getQuantity())
+                .switchIfEmpty(ApplicationExceptions.insufficientShares(customerId));
+
+        return customerMono.zipWhen(customer -> portfolioItemMono)
+                .flatMap(tuple -> executeSell(tuple.getT1(),
+                        tuple.getT2(), stockTradeRequest));
+    }
+
+    private Mono<StockTradeResponse> executeSell(Customer customer, PortfolioItem portfolioItem,
+                                                StockTradeRequest stockTradeRequest) {
+        customer.setBalance(customer.getBalance() + stockTradeRequest.totalPrice());
+        portfolioItem.setQuantity(portfolioItem.getQuantity() - stockTradeRequest.getQuantity());
+        StockTradeResponse response = EntityDtoMapper
+                .toStockTradeResponse(stockTradeRequest, customer.getId(), customer.getBalance());
+        return Mono.zip(customerRepository.save(customer), portfolioItemRepository.save(portfolioItem))
+                .thenReturn(response);
     }
 
     private Mono<StockTradeResponse> buyStock(int customerId, StockTradeRequest stockTradeRequest) {
