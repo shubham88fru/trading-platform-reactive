@@ -10,4 +10,8 @@ public class StockTradeRequest {
     private int price;
     private int quantity;
     private TradeAction action;
+
+    public int totalPrice() {
+        return price * quantity;
+    }
 }
