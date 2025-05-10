@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("customer")
+@RequestMapping("customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -22,7 +22,7 @@ public class CustomerController {
         return customerService.getCustomerInformation(customerId);
     }
 
-    @PostMapping("/{customerId}")
+    @PostMapping("/{customerId}/trade")
     public Mono<StockTradeResponse> trade(@PathVariable int customerId,
                                           @RequestBody Mono<StockTradeRequest> stockTradeRequest) {
         return stockTradeRequest

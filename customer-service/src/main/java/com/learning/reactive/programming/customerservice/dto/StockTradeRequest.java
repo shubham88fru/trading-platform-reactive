@@ -2,8 +2,10 @@ package com.learning.reactive.programming.customerservice.dto;
 
 import com.learning.reactive.programming.customerservice.domain.Ticker;
 import com.learning.reactive.programming.customerservice.domain.TradeAction;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class StockTradeRequest {
     private Ticker ticker;
