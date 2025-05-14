@@ -30,7 +30,7 @@ public class CustomerPortfolioService {
                 request.getTicker(),
                 price,
                 request.getQuantity(),
-                request.getTradeAction()
+                request.getAction()
         );
     }
 

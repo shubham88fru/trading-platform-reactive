@@ -9,6 +9,6 @@ import lombok.Data;
 @Data
 public class TradeRequest {
     private Ticker ticker;
-    private TradeAction tradeAction;
+    private TradeAction action;
     private int quantity;
 }

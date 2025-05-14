@@ -25,7 +25,7 @@ public class RequestValidator {
 
 
     private static Predicate<TradeRequest> hasTradeAction() {
-        return dto -> Objects.nonNull(dto.getTradeAction());
+        return dto -> Objects.nonNull(dto.getAction());
     }
 
 
