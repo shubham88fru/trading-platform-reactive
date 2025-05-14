@@ -40,7 +40,7 @@ public class StockServiceClient {
 
     public Flux<PriceUpdate> getPriceUpdates() {
         return this.client.get()
-                .uri("/sock/price-stream")
+                .uri("/stock/price-stream")
                 .accept(MediaType.APPLICATION_NDJSON)
                 .retrieve()
                 .bodyToFlux(PriceUpdate.class)
